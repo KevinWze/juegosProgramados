@@ -1,0 +1,160 @@
+<script>
+
+var jugador1 = prompt("Ingrese el nombre del jugador 1")
+var jugador2 = prompt("Ingrese el nombre del jugador 2")
+const posicion = document.querySelectorAll(".posicion");
+let barco = {};
+let barcoRandom = {};
+let posicionBarco = [];
+let nombreBarco = [];
+tablero1 = [
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0]
+]	
+
+tablero2 = [
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0]
+]	
+
+function mostrarTablero(tablero){
+  for (var i = 0; i < tablero1.length; i++) {
+    for (var j = 0; j < tablero1[i].length; j++) {
+      document.write(tablero[i][j] + " ")
+    }
+    document.write("<br>")
+  }
+}
+
+const barcosTamaño = [3,2,1];
+
+function ponerBarcos(tablero, barcosTamaño){
+  for (var i = 0; i < barcosTamaño.length; i++) {
+    var fila = Math.floor(Math.random() * tablero.length)
+    var columna = Math.floor(Math.random() * tablero[i].length)
+    var orientacion = Math.floor(Math.random() * 2)
+    if (orientacion == 0) {
+      for (var j = 0; j < barcosTamaño[i]; j++) {
+        tablero[fila][columna + j] = 1
+      }
+    } else {
+      for (var j = 0; j < barcosTamaño[i]; j++) {
+        tablero[fila + j][columna] = 1
+      }
+    }
+    }
+}
+
+function crearTablero(tablero){
+  for (var i = 0; i < tablero1.length; i++) {
+    for (var j = 0; j < tablero1[i].length; j++) {
+      tablero[i][j] = 0
+    }
+  }
+}
+function elegirBarco (event){
+  var ship = event.target.split ("-")
+  
+  posicionBarco = ship[1]
+    nombreBarco = ship[0]
+    console.log(nombreBarco)
+    console.log(posicionBarco)
+}
+function verificarPosicion (pos, tablero, size){ //pos es un array con la posicion del barco
+    if (barcoRandom.position === pos){
+      alert("El barco esta en la posicion")
+    }
+    else {
+      alert("El barco no esta en la posicion adecuada")
+    }
+}
+function empezarJuego(){
+  crearTablero(tablero1)
+    ponerBarcos(tablero1, barcosTamaño)
+    mostrarTablero(tablero1)
+    crearTablero(tablero2)
+    ponerBarcos(tablero2, barcosTamaño)
+    mostrarTablero(tablero2)
+    var disparo = prompt("Ingrese la fila y columna del disparo")
+    var fila = disparo[0]
+    var columna = disparo[1]
+    disparar(tablero2, fila, columna)
+    mostrarTablero(tablero2)
+}
+
+function disparar(tablero, fila, columna){
+  if (tablero1[fila][columna] == 1) {
+    tablero1[fila][columna] = 2
+  } else {
+    tablero1[fila][columna] = 3
+  }
+}
+
+function verificarDisparo (){
+  var disparo = prompt("Ingrese la fila y columna del disparo")
+  var fila = disparo[0]
+  var columna = disparo[1]
+  disparar(tablero2, fila, columna)
+  mostrarTablero(tablero2)
+}
+
+function ganador(tablero){
+  var contador = 0
+  for (var i = 0; i < tablero.length; i++) {
+    for (var j = 0; j < tablero[i].length; j++) {
+      if (tablero1[i][j] == 2) {
+        contador++
+      }
+    }
+  }
+    if (contador == tablero1.length * tablero1[i].length) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function verificarGanador(){
+  if (ganador(tablero1)) {
+    alert("El jugador 1 gano")
+  } else if (ganador(tablero2)) {
+    alert("El jugador 2 gano")
+    } else {
+        alert("No hay ganador")
+        }
+}
+
+console.log("El jugador 1 es: " + jugador1)
+console.log("El jugador 2 es: " + jugador2)
+
+mostrarTablero(tablero1)
+mostrarTablero(tablero2)
+console.log("Poniendo barcos en el tablero 1")
+ponerBarcos(tablero1, barcosTamaño)
+console.log("Poniendo barcos en el tablero 2")
+ponerBarcos(tablero2, barcosTamaño)
+mostrarTablero(tablero1)
+mostrarTablero(tablero2)
+console.log("Disparando en el tablero 1")
+disparar(tablero1, 0, 0)
+console.log("Disparando en el tablero 2")
+disparar(tablero2, 0, 0)
+
+
+</script>
